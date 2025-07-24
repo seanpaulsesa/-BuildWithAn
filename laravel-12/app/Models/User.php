@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'photo',
     ];
 
     /**
@@ -44,5 +46,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function getPhotoAttribute($value)
+    {
+        if (!$value)
+        {
+            return null;
+        }
+        return url(Storage::url($value));
+    }
+    public function merchant()
+    {
+        return $this->has0ne(Merchant::class, 'keeper_id', 'id');
     }
 }
